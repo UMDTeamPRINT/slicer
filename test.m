@@ -65,9 +65,6 @@ for j=1:ny
     end
 end
 O = O(2:length(O(:,1)'),:);
-x2 = linspace(min(O(:,1)),max(O(:,1)),nx);
-y2 = linspace(min(O(:,2)),max(O(:,2)),ny);
-[X2,Y2] = meshgrid(x2,y2);
 Z2 = griddata(O(:,1),O(:,2),O(:,3),X,Y);
 figure
 hold on
