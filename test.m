@@ -35,39 +35,22 @@ Pp = translate_mesh(Pp,tp);
 patch('Faces', Tp, 'Vertices', Pp, 'FaceVertexCData', (1:length(Tp(:,1)))', 'FaceColor', 'flat');
 
 %%
-nx = 200;
-ny = 200;
-x = linspace(min(Ps(:,1)),max(Ps(:,1)),nx);
-y = linspace(min(Ps(:,2)),max(Ps(:,2)),ny);
+r = 0.1;
+x = min(Ps(:,1)):r:max(Ps(:,1));
+y = min(Ps(:,2)):r:max(Ps(:,2));
 [X,Y] = meshgrid(x,y);
 Z = gridtrimesh(Ts,Ps,X,Y);
 figure
 hold on
 surf(X,Y,Z)
 %%
-% See [1]Bin Huang, “Development of a Software procedure for Curved layered Fused DepositionModelling (CLFDM),” Master Thesis, Auckland University of Technology, 2009.
-% Implementation of MFVCP
-t = 1;
-V3 = [1 0 0];
-O = [0 0 0];
-for j=1:ny
-    for i=2:nx-1
-        V1 = [X(i-1,j) Y(i-1,j) Z(i-1,j)] - [X(i,j) Y(i,j) Z(i,j)];
-        V2 = [X(i+1,j) Y(i+1,j) Z(i+1,j)] - [X(i,j) Y(i,j) Z(i,j)];
-        V13 = t.*cross(V1,V3)./norm(cross(V1,V3));
-        V23 = t.*cross(V3,V2)./norm(cross(V3,V2));
-        alpha = acos(dot(V13,V23)./(norm(V13)*norm(V23)));
-        V5 = t.*(V13+V23)./(cos(alpha/2)*norm(V13+V23));
-        P2 = [X(i,j) Y(i,j) Z(i,j)] + V5;
-        if ~isnan(P2)
-            O = [O; P2];
-        end
-    end
+Zs = Z;
+for l=1:10
+    Zs(:,:,l) = raise_slice(0.2*l,X,Y,Z);
 end
-O = O(2:length(O(:,1)'),:);
-Z2 = griddata(O(:,1),O(:,2),O(:,3),X,Y);
+%%
 figure
 hold on
-surf(X,Y,Z2)
 surf(X,Y,Z)
+surf(X,Y,Zs(:,:,5))
 hold off

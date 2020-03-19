@@ -29,6 +29,7 @@ for j=1:ny
         end
     end
 end
+
 i = 2;
 while i<size(O,1)-1
     if O(i,4)==1
