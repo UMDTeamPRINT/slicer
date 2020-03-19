@@ -8,7 +8,7 @@ ts = [0 0 0];
 rs = [-90 0 0];
 
 % How much to translate the print
-tp = [0 0 50.8-19.04];
+tp = [0 0 50.8-20];
 % How much to rotate the print
 rp = [-90 0 0];
 
@@ -40,6 +40,9 @@ r = 0.1;
 x = min(Ps(:,1)):r:max(Ps(:,1));
 y = min(Ps(:,2)):r:max(Ps(:,2));
 [X,Y] = meshgrid(x,y);
+
+% Need to find better way to do this... gridtrimesh leaves some artifacts
+% when there is infinite slope
 Z = gridtrimesh(Ts,Ps,X,Y);
 figure
 hold on
@@ -48,9 +51,9 @@ toc
 %%
 tic
 Zs = Z;
-for l=1:10
+for l=1:1
     tic
-    Zs(:,:,l) = raise_slice(0.2*l,X,Y,Z);
+    Zs(:,:,l) = raise_slice(0.2*l,X,Y,Z,Tp,Pp);
     toc
 end
 toc
@@ -59,6 +62,10 @@ figure
 hold on
 
 surf(X,Y,Z)
-surf(X,Y,Zs(:,:,10))
+surf(X,Y,Zs(:,:,1))
 
 hold off
+%%
+tic
+
+toc

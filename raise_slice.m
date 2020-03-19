@@ -1,4 +1,4 @@
-function Z2 = raise_slice(t,X,Y,Z)
+function Z2 = raise_slice(t,X,Y,Z,T,P)
 %% Raises slice by t
 % See [1]Bin Huang, “Development of a Software procedure for Curved layered Fused DepositionModelling (CLFDM),” Master Thesis, Auckland University of Technology, 2009.
 % Implementation of MFVCP
@@ -57,6 +57,10 @@ end
 
 %% remove 0s and output only Z values at original X, Y points
 O = O(any(O,2),:);
+O = O(:,1:3);
+IN = in_polyhedron(T,P,[O(:,1),O(:,2),O(:,3)]);
+indices = IN==0;
+O(indices,:) = [];
 Z2 = griddata(O(:,1),O(:,2),O(:,3),X,Y);
 
 end
