@@ -35,6 +35,7 @@ Pp = translate_mesh(Pp,tp);
 patch('Faces', Tp, 'Vertices', Pp, 'FaceVertexCData', (1:length(Tp(:,1)))', 'FaceColor', 'flat');
 
 %%
+tic
 r = 0.1;
 x = min(Ps(:,1)):r:max(Ps(:,1));
 y = min(Ps(:,2)):r:max(Ps(:,2));
@@ -43,14 +44,21 @@ Z = gridtrimesh(Ts,Ps,X,Y);
 figure
 hold on
 surf(X,Y,Z)
+toc
 %%
+tic
 Zs = Z;
 for l=1:10
+    tic
     Zs(:,:,l) = raise_slice(0.2*l,X,Y,Z);
+    toc
 end
+toc
 %%
 figure
 hold on
+
 surf(X,Y,Z)
-surf(X,Y,Zs(:,:,5))
+surf(X,Y,Zs(:,:,10))
+
 hold off
