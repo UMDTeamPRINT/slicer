@@ -1,4 +1,5 @@
 function Z2 = raise_slice(t,X,Y,Z,T,P)
+%% TODO make this better
 %% Raises slice by t
 % See [1]Bin Huang, “Development of a Software procedure for Curved layered Fused DepositionModelling (CLFDM),” Master Thesis, Auckland University of Technology, 2009.
 % Implementation of MFVCP

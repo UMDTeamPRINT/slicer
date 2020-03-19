@@ -74,5 +74,5 @@ surf(X,Y,Z)
 for l=1:50
     surf(X,Y,Zs(:,:,l))
 end
-
+shading interp
 hold off
