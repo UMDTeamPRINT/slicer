@@ -15,6 +15,7 @@ in = 1;
 
 % For some reason were working in I plane
 V3 = [1 0 0];
+
 for j=1:ny
     for i=2:nx-1
         Pi_minus_1 = [X(i-1,j) Y(i-1,j) Z(i-1,j)];
@@ -41,26 +42,31 @@ end
 
 %% Trim intersecting points
 i = 2;
+trim = zeros(size(O,1),1);
 while i<size(O,1)-1
     if O(i,4)==1
         if O(i,6)==O(i-1,6) && O(i-1,2)>O(i,2)
-            O(i-1,:)=[];
-            i = i-1;
+            trim(i-1)=1;
         end
         if O(i,6)==O(i+1,6) && O(i+1,2)<O(i,2)
-            O(i+1,:)=[];
-            i = i-1;
+            trim(i+1)=1;
         end
     end
     i=i+1;
 end
+indices = trim==0;
+O(indices,:)=[];
 
-%% remove 0s and output only Z values at original X, Y points
+%% remove 0s
 O = O(any(O,2),:);
 O = O(:,1:3);
-IN = in_polyhedron(T,P,[O(:,1),O(:,2),O(:,3)]);
-indices = IN==0;
-O(indices,:) = [];
+
+%% Trim points outside print mesh
+% IN = in_polyhedron(T,P,[O(:,1),O(:,2),O(:,3)]);
+% indices = IN==0;
+% O(indices,:) = [];
+
+%% Output only Z values at original X, Y points
 Z2 = griddata(O(:,1),O(:,2),O(:,3),X,Y);
 
 end

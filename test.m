@@ -15,12 +15,19 @@ rp = [-90 0 0];
 % 1 means all inputs are in degrees
 deg = 1;
 
+% resolution in X,Y
+r = 0.1;
+
+% layer height
+lh = 0.2;
+
 %% Display structure
 [Ps,Ts,Ns]=import_stl_fast(structure_stl,1);
 
 [Ps, Ns] = rotate_mesh(Ps,Ns,rs,deg);
 Ps = translate_mesh(Ps,ts);
 
+figure
 patch('Faces', Ts, 'Vertices', Ps, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
 view(3)
 axis equal
@@ -34,9 +41,10 @@ Pp = translate_mesh(Pp,tp);
 
 patch('Faces', Tp, 'Vertices', Pp, 'FaceVertexCData', (1:length(Tp(:,1)))', 'FaceColor', 'flat');
 
-%%
+%% Generate meshgrid (F(x,y)) for stl
+disp('Starting mesh generation')
 tic
-r = 0.1;
+
 x = min(Ps(:,1)):r:max(Ps(:,1));
 y = min(Ps(:,2)):r:max(Ps(:,2));
 [X,Y] = meshgrid(x,y);
@@ -45,27 +53,26 @@ y = min(Ps(:,2)):r:max(Ps(:,2));
 % when there is infinite slope
 Z = gridtrimesh(Ts,Ps,X,Y);
 figure
-hold on
 surf(X,Y,Z)
 toc
-%%
+%% Generate layers
+disp('Generating layers')
 tic
 Zs = Z;
-for l=1:1
+for l=1:50
+    disp(strcat('Layer: ',num2str(l)))
     tic
-    Zs(:,:,l) = raise_slice(0.2*l,X,Y,Z,Tp,Pp);
+    Zs(:,:,l) = raise_slice(lh*l,X,Y,Z,Tp,Pp);
     toc
 end
 toc
-%%
+%% Plot surfaces
 figure
 hold on
 
 surf(X,Y,Z)
-surf(X,Y,Zs(:,:,1))
+for l=1:50
+    surf(X,Y,Zs(:,:,l))
+end
 
 hold off
-%%
-tic
-
-toc
