@@ -54,7 +54,7 @@ while i<size(O,1)-1
     end
     i=i+1;
 end
-indices = trim==0;
+indices = trim==1;
 O(indices,:)=[];
 
 %% remove 0s
