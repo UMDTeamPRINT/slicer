@@ -1,10 +1,19 @@
 function Z2 = raise_slice(t,X,Y,Z)
+%% Raises slice by t
 % See [1]Bin Huang, “Development of a Software procedure for Curved layered Fused DepositionModelling (CLFDM),” Master Thesis, Auckland University of Technology, 2009.
 % Implementation of MFVCP
+%% Init variables
+% dimensions of surface indices
 nx = size(X,2);
 ny = size(Y,1);
+
+% Create output matrix
 O = zeros(nx*ny,6);
+
+% Index of current value in output matrix
 in = 1;
+
+% For some reason were working in I plane
 V3 = [1 0 0];
 for j=1:ny
     for i=2:nx-1
@@ -30,6 +39,7 @@ for j=1:ny
     end
 end
 
+%% Trim intersecting points
 i = 2;
 while i<size(O,1)-1
     if O(i,4)==1
@@ -45,6 +55,7 @@ while i<size(O,1)-1
     i=i+1;
 end
 
+%% remove 0s and output only Z values at original X, Y points
 O = O(any(O,2),:);
 Z2 = griddata(O(:,1),O(:,2),O(:,3),X,Y);
 
