@@ -8,7 +8,7 @@ ts = [0 0 0];
 rs = [-90 0 0];
 
 % How much to translate the print
-tp = [0 0 50.8-20];
+tp = [0 0 50.8-22];
 % How much to rotate the print
 rp = [-90 0 0];
 
@@ -16,10 +16,10 @@ rp = [-90 0 0];
 deg = 1;
 
 % resolution in X,Y
-r = 0.4;
+r = 0.2;
 
 % layer height
-lh = 0.4;
+lh = 0.2;
 
 %% Display structure
 [Ps,Ts,Ns]=import_stl_fast(structure_stl,1);
@@ -59,10 +59,10 @@ toc
 disp('Generating layers')
 tic
 Zs = Z;
-for l=1:50
+for l=1:10
     disp(strcat('Layer: ',num2str(l)))
     tic
-    Zs(:,:,l) = raise_slice(lh*l,X,Y,Z);
+    Zs(:,:,l) = raise_slice(lh*l,X,Y,Z,Tp,Pp);
     toc
 end
 toc
@@ -70,9 +70,10 @@ toc
 figure
 hold on
 
-surf(X,Y,Z)
-for l=1:50
+% surf(X,Y,Z)
+for l=1:10
     surf(X,Y,Zs(:,:,l))
 end
 %shading interp
 hold off
+
