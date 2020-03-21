@@ -58,35 +58,6 @@ for j=2:ny-1
         end
     end
 end
-%%
-
-% % For some reason were working in I plane
-% V3 = [1 0 0];
-% 
-% for j=1:ny
-%     for i=2:nx-1
-%         Pi_minus_1 = [X(i-1,j) Y(i-1,j) Z(i-1,j)];
-%         Pi_plus_1 = [X(i+1,j) Y(i+1,j) Z(i+1,j)];
-%         Pi = [X(i,j) Y(i,j) Z(i,j)];
-%         K1 = (Pi(3)-Pi_minus_1(3))/(Pi(2)-Pi_minus_1(2));
-%         K2 = (Pi_plus_1(3)-Pi(3))/(Pi_plus_1(2)-Pi(2));
-%         V1 = Pi_minus_1 - Pi;
-%         V2 = Pi_plus_1 - Pi;
-%         V13 = t.*cross(V1,V3)./norm(cross(V1,V3));
-%         V23 = t.*cross(V3,V2)./norm(cross(V3,V2));
-%         alpha = acos(dot(V13,V23)./(norm(V13)*norm(V23)));
-%         V5 = [t.*(V13+V23)./(cos(alpha/2)*norm(V13+V23)) 0 0 0];
-%         P2 = [X(i,j) Y(i,j) Z(i,j) 0 i j] + V5;
-%         if ~isnan(P2)
-%             if K1<K2
-%                 P2(4) = 1;
-%             end
-%             O(in,:) = P2;
-%             in=1+in;
-%         end
-%     end
-% end
-
 
 %% remove 0s
 O = O(any(O,2),:);
