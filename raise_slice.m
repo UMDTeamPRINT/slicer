@@ -9,7 +9,7 @@ nx = size(X,2);
 ny = size(Y,1);
 
 % Create output matrix
-O = zeros(nx*ny,6);
+O = zeros(nx*ny,7);
 
 % Index of current value in output matrix
 in = 1;
@@ -24,8 +24,8 @@ for j=2:ny-1
         
       	K1i = (Pi(3)-Pi_minus_1(3))/(Pi(2)-Pi_minus_1(2));
         K2i = (Pi_plus_1(3)-Pi(3))/(Pi_plus_1(2)-Pi(2));
-        K1j = (Pi(3)-Pj_minus_1(3))/(Pi(2)-Pj_minus_1(2));
-        K2j = (Pj_plus_1(3)-Pi(3))/(Pj_plus_1(2)-Pi(2));
+        K1j = (Pi(3)-Pj_minus_1(3))/(Pi(1)-Pj_minus_1(1));
+        K2j = (Pj_plus_1(3)-Pi(3))/(Pj_plus_1(1)-Pi(1));
         
         V1 = Pi_minus_1 - Pi;
         V2 = Pi_plus_1 - Pi;
@@ -67,27 +67,42 @@ for j=2:ny-1
     end
 end
 
-%% remove 0s
-O = O(any(O,2),:);
-O = O(:,1:3);
-
 %% Trim intersecting points
 % i = 2;
 % trim = zeros(size(O,1),1);
 % while i<size(O,1)-1
 %     if O(i,4)==1
-%         if O(i,6)==O(i-1,6) && O(i-1,2)>O(i,2)
+%         if O(i,7)==O(i-1,7) && O(i-1,2)>O(i,2)
 %             trim(i-1)=1;
 %         end
-%         if O(i,6)==O(i+1,6) && O(i+1,2)<O(i,2)
+%         if O(i,7)==O(i+1,7) && O(i+1,2)<O(i,2)
 %             trim(i+1)=1;
 %         end
 %     end
 %     i=i+1;
 % end
+% 
+% O = sortrows(O,7);
+% 
+% i = 2;
+% while i<size(O,1)-1
+%     if O(i,5)==1
+%         if O(i,6)==O(i-1,6) && O(i-1,1)>O(i,1)
+%             trim(i-1)=1;
+%         end
+%         if O(i,7)==O(i+1,6) && O(i+1,1)<O(i,1)
+%             trim(i+1)=1;
+%         end
+%     end
+%     i=i+1;
+% end
+% 
 % indices = trim==1;
 % O(indices,:)=[];
 
+%% remove 0s
+O = O(any(O,2),:);
+O = O(:,1:3);
 
 %% Trim points outside print mesh
 % IN = in_polyhedron(T,P,[O(:,1),O(:,2),O(:,3)]);
