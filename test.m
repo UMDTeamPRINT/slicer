@@ -16,10 +16,10 @@ rp = [-90 0 0];
 deg = 1;
 
 % resolution in X,Y
-r = 0.1;
+r = 0.4;
 
 % layer height
-lh = 0.2;
+lh = 0.4;
 
 %% Display structure
 [Ps,Ts,Ns]=import_stl_fast(structure_stl,1);
@@ -62,7 +62,7 @@ Zs = Z;
 for l=1:50
     disp(strcat('Layer: ',num2str(l)))
     tic
-    Zs(:,:,l) = raise_slice(lh*l,X,Y,Z,Tp,Pp);
+    Zs(:,:,l) = raise_slice(lh*l,X,Y,Z);
     toc
 end
 toc
@@ -71,8 +71,8 @@ figure
 hold on
 
 surf(X,Y,Z)
-for l=1:50
+for l=10:50
     surf(X,Y,Zs(:,:,l))
 end
-shading interp
+%shading interp
 hold off
