@@ -22,6 +22,11 @@ for j=2:ny-1
         Pj_minus_1 = [X(i,j-1) Y(i,j-1) Z(i,j-1)];
         Pj_plus_1 = [X(i,j+1) Y(i,j+1) Z(i,j+1)];
         
+      	K1i = (Pi(3)-Pi_minus_1(3))/(Pi(2)-Pi_minus_1(2));
+        K2i = (Pi_plus_1(3)-Pi(3))/(Pi_plus_1(2)-Pi(2));
+        K1j = (Pi(3)-Pj_minus_1(3))/(Pi(2)-Pj_minus_1(2));
+        K2j = (Pj_plus_1(3)-Pi(3))/(Pj_plus_1(2)-Pi(2));
+        
         V1 = Pi_minus_1 - Pi;
         V2 = Pi_plus_1 - Pi;
         V3 = Pj_plus_1 - Pi;
@@ -47,12 +52,15 @@ for j=2:ny-1
         
         beta = acos(dot(V1314,V2324)/(norm(dot(V1314,V2324))));
         
-        V5 = [t*(V1314+V2324)/(norm(V1314+V2324)*cos(alpha1/2)*cos(beta/2)) 0 0 0];
-        P2 = [Pi 0 i j] + V5;
+        V5 = [t*(V1314+V2324)/(norm(V1314+V2324)*cos(alpha1/2)*cos(beta/2)) 0 0 0 0];
+        P2 = [Pi 0 0 i j] + V5;
         if ~isnan(P2)
-%             if K1<K2
-%                 P2(4) = 1;
-%             end
+            if K1i<K2i
+                P2(4) = 1;
+            end
+            if K1j<K2j
+                P2(5) = 1;
+            end
             O(in,:) = P2;
             in=1+in;
         end
