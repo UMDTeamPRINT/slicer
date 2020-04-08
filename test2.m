@@ -45,4 +45,4 @@ Pp = translate_mesh(Pp,tp);
 % hold off
 
 %%
-[Tpl,Ppl] = raise_layer(1,Pp,Tp)
+[Tpl,Ppl] = raise_layer(.01,Tp,Pp)
