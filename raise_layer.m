@@ -1,4 +1,8 @@
+% thickness
+
 function [To,Po] = raise_layer(t,T,P)
+
+tolerance = 1E-6;
 
 Po=[];
 
@@ -6,6 +10,7 @@ for i=1:size(T,1)
     tic
     adj=[];
     tt = T(i,:);
+    common_points = []; % set of common points (in order of triangles)
     
     % Find adjacent triangles
     for j=1:size(T,1)
@@ -18,11 +23,13 @@ for i=1:size(T,1)
                 for u=1:3
                     if tt(k)==T(j,u)
                         sum=sum+1;
+                        cp(sum) = tt(k);
                     end
                 end
             end
             if sum==2
                 adj = [adj;T(j,:)];
+                common_points(:,:,size(common_points,3)+1) = [P(cp(1),:);P(cp(2),:)];
             end
         end
     end
@@ -53,7 +60,15 @@ for i=1:size(T,1)
     point = zeros(4,3);
     dir = zeros(4,3);
     for j=2:4
-        [point(j,:), dir(j,:)] = plane_intersect(ns(1,:),rts(1,:,j),ns(j,:),rts(1,:,j));
+        % compute the angle between the normals
+        angle = dot(ns(1,:),ns(j,:)) / t^2;
+        
+        if angle > tolerance
+            [point(j,:), dir(j,:)] = plane_intersect(ns(1,:),rts(1,:,j),ns(j,:),rts(1,:,j));
+        else
+            point(j,:) = common_points(1,:,j) + ns(j,:);
+            dir(j,:) = common_points(1,:,j) - common_points(2,:,j);
+        end
     end
     
     % Uses x^2 to get intersection. Need to find explicit form.
