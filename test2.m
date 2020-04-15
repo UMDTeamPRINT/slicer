@@ -45,4 +45,5 @@ Pp = translate_mesh(Pp,tp);
 % hold off
 
 %%
-[Tpl,Ppl] = raise_layer(.01,Tp,Pp)
+[To,Po] = raise_layer(.01,Tp,Pp)
+plot3(Po(:,1),Po(:,2),Po(:,3),'o')
