@@ -45,8 +45,9 @@ Pp = translate_mesh(Pp,tp);
 % hold off
 
 %%
-Ppl = mean_raise(5,Ts,Ps,Ns);
-plot3(Ppl(:,1),Ppl(:,2),Ppl(:,3),'o');
-xlim([-100 100]);ylim([-100 100]);zlim([-100 100]);
-hold on
+Ppl = mean_raise(10,Ts,Ps,Ns);
 patch('Faces', Ts, 'Vertices', Ps, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
+hold on
+m2 = patch('Faces', Ts, 'Vertices', Ppl, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
+m2.FaceAlpha='flat';
+m2.FaceVertexAlphaData=(0.3);

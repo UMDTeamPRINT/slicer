@@ -19,10 +19,12 @@ for i=1:size(P,1)
             end
         end
     end
+    
     ns = ns(any(ns,2),:);
     avgn = zeros(1,3);
-    for j=1:size(ns,1);
-        avgn=avgn+ns(i,:);
+    
+    for j=1:size(ns,1)
+        avgn=avgn+ns(j,:);
     end
     
     avgn = t*avgn/norm(avgn);
