@@ -1,7 +1,11 @@
-function Po = mean_layer(t,T,P,N)
+function Po = mean_raise(t,T,P,N)
+
 Po=zeros(size(P));
+
+% For each point, raise by average normal
 for i=1:size(P,1)
     
+    % Point we're looking at
     p=P(i,:);
     
     ns = zeros(6,3);
@@ -20,13 +24,17 @@ for i=1:size(P,1)
         end
     end
     
+    % Trim normals of any 0s
     ns = ns(any(ns,2),:);
+    
     avgn = zeros(1,3);
     
+    % Sum normals
     for j=1:size(ns,1)
         avgn=avgn+ns(j,:);
     end
     
+    % Normalize normals
     avgn = t*avgn/norm(avgn);
     
     Po(i,:) = p+avgn;

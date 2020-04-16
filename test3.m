@@ -44,10 +44,25 @@ Pp = translate_mesh(Pp,tp);
 % patch('Faces', Tp, 'Vertices', Pp, 'FaceVertexCData', (1:length(Tp(:,1)))', 'FaceColor', 'flat');
 % hold off
 
-%%
+%% Test Code
 Ppl = mean_raise(10,Ts,Ps,Ns);
 patch('Faces', Ts, 'Vertices', Ps, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
 hold on
 m2 = patch('Faces', Ts, 'Vertices', Ppl, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
 m2.FaceAlpha='flat';
 m2.FaceVertexAlphaData=(0.3);
+
+%% Generate Layers
+% Number of layers
+l=100;
+Ppl=zeros(size(Ps,1),3,l);
+tic
+for i=1:100
+    Ppl(:,:,i)=mean_raise(i*lh,Ts,Ps,Ns);
+    patch('Faces', Ts, 'Vertices', Ppl(:,:,i), 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
+    hold on
+    i
+    toc
+end
+alpha(0.3);
+toc
