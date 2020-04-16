@@ -84,7 +84,7 @@ for i=1:size(T,1)
 %     np(2,:) = point(3,:)+dir(3,:)*((dir(4,2)*point(3,3) - dir(4,3)*point(3,2) - dir(4,2)*point(4,3) + dir(4,3)*point(4,2))/(dir(3,2)*dir(4,3) - dir(4,2)*dir(3,3)));
 %     np(3,:) = point(4,:)+dir(4,:)*((dir(2,2)*point(4,3) - dir(2,3)*point(4,2) - dir(2,2)*point(2,3) + dir(2,3)*point(2,2))/(dir(4,2)*dir(2,3) - dir(2,2)*dir(4,3)));
 %         
-    % Explicit Solution that's better
+    % Explicit Solution that's better from here: https://math.stackexchange.com/q/2213256
     for j=2:4
         a=point(j,:);
         b=dir(j,:);
