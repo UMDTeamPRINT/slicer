@@ -103,7 +103,7 @@ end
 %% remove 0s
 O = O(any(O,2),:);
 O = O(:,1:3);
-
+plot3(O(:,1),O(:,2),O(:,3),'o')
 %%
 IN = inpolyhedron(T,P,O);
 indices = IN==0;

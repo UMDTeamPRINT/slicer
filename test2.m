@@ -45,5 +45,8 @@ Pp = translate_mesh(Pp,tp);
 % hold off
 
 %%
-[To,Po] = raise_layer(.01,Tp,Pp)
-plot3(Po(:,1),Po(:,2),Po(:,3),'o')
+[Tpl,Ppl] = raise_layer(5,Ts,Ps);
+plot3(Ppl(:,1),Ppl(:,2),Ppl(:,3),'o');
+xlim([-100 100]);ylim([-100 100]);zlim([-100 100]);
+hold on
+patch('Faces', Ts, 'Vertices', Ps, 'FaceVertexCData', (1:length(Ts(:,1)))', 'FaceColor', 'flat');
